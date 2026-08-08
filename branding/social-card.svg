@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" role="img" aria-labelledby="title desc">
+  <title id="title">CRIT Universal social card</title>
+  <desc id="desc">CRIT Universal social card: Context before command, cross-LLM problem-solving skill.</desc>
+  <rect width="1280" height="640" fill="#142B4A"/>
+  <circle cx="1110" cy="-20" r="310" fill="#1D385C"/>
+  <circle cx="1190" cy="650" r="290" fill="#10243E"/>
+  <g transform="translate(82 78) scale(.46)">
+    <rect width="512" height="512" rx="96" fill="#F7F5F0"/>
+    <path d="M256 88 L302 134 L256 180 L210 134 Z" fill="#B98A3B"/>
+    <path d="M378 210 L424 256 L378 302 L332 256 Z" fill="#B98A3B"/>
+    <path d="M256 332 L302 378 L256 424 L210 378 Z" fill="#B98A3B"/>
+    <path d="M134 210 L180 256 L134 302 L88 256 Z" fill="#B98A3B"/>
+    <circle cx="256" cy="256" r="49" fill="#142B4A"/>
+    <circle cx="256" cy="256" r="18" fill="#B98A3B"/>
+    <g fill="#142B4A" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" text-anchor="middle" dominant-baseline="middle">
+      <text x="256" y="134">C</text><text x="378" y="256">R</text><text x="256" y="378">I</text><text x="134" y="256">T</text>
+    </g>
+  </g>
+  <text x="365" y="184" fill="#F7F5F0" font-family="Arial, Helvetica, sans-serif" font-size="74" font-weight="800">CRIT UNIVERSAL</text>
+  <text x="365" y="246" fill="#D5B36A" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">Context before command.</text>
+  <text x="84" y="407" fill="#F7F5F0" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="650">Make AI understand the problem before it tries to solve it.</text>
+  <text x="84" y="472" fill="#B9C3CF" font-family="Arial, Helvetica, sans-serif" font-size="27">Context  •  Role  •  Interview  •  Task  •  Critique  •  Verify</text>
+  <text x="84" y="540" fill="#D5B36A" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">CLAUDE CODE  •  CHATGPT PROJECTS  •  CLAUDE PROJECTS</text>
+  <text x="84" y="578" fill="#D5B36A" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">GEMINI  •  COPILOT  •  GENERIC LLM</text>
+</svg>
