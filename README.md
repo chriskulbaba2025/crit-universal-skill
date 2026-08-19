@@ -204,7 +204,7 @@ CI runs both validators.
 ## Status
 
 **Version:** 1.1.0  
-**Release state:** Stable candidate pending branch validation/merge  
+**Release state:** Stable  
 **Canonical maintainer:** Chris Kulbaba (@chriskulbaba2025)  
 **Canonical repository:** `chriskulbaba2025/crit-universal-skill`
 
