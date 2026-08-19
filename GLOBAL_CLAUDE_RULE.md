@@ -1,21 +1,21 @@
-<!-- CRIT_CORE_VERSION: 1.0.0 -->
+<!-- CRIT_CORE_VERSION: 1.1.0 -->
 # Global Claude Code CRIT invocation rule
 
-For every user prompt, evaluate whether the request is a qualifying problem before acting.
+For every user prompt, evaluate whether missing context or uncertainty could materially change a meaningful outcome before acting.
 
-If the request is significant, ambiguous, consequential, strategic, operational, organizational, technical, or creative and missing context could materially change the outcome, invoke the `crit-problem-solving` skill before producing the substantive solution.
-
-This includes decisions, root-cause diagnosis, planning, prioritization, delegation, architecture/system design, tradeoff evaluation, and high-impact goals.
-
-Do not invoke the full CRIT workflow for simple factual lookups, arithmetic, direct rewrites/translations, syntax questions, or fully specified low-ambiguity actions.
+If the request is significant, ambiguous, consequential, strategic, operational, organizational, technical, or creative, invoke the `crit-problem-solving` skill before substantive execution.
 
 When CRIT applies:
 
 - inspect repository/files/tools before asking for information already available;
-- ask zero to three interview questions, one at a time;
-- do not produce the substantive solution until required context is sufficient;
-- preserve approved content on revisions;
-- verify every explicit constraint;
-- apply the five-area semantic gate before substantial final delivery.
+- ask zero to three decision-changing questions, one at a time;
+- compile the decision exposure: objective, owner, success condition, cost of error, reversibility, and evidence sufficiency;
+- test the highest-leverage uncertain assumption against the strongest credible disconfirming condition;
+- use PROCEED, CONDITIONAL, or BLOCKED internally rather than manufacturing certainty;
+- preserve approved requirements without treating approval as empirical proof;
+- verify hard constraints, anti-goals, evidence discipline, authority boundaries, actionability, and robustness before delivery;
+- do not use runtime numeric self-scoring.
 
-The project/repository's stricter safety, governance, authorization, and evidence rules remain in force and take precedence when applicable.
+Skip full CRIT for genuinely simple, fully specified, low-ambiguity work.
+
+The repository's stricter safety, governance, authorization, testing, release, and evidence rules remain in force and take precedence.

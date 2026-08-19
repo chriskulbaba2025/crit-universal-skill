@@ -4,7 +4,7 @@ import re
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 
 required = [
     "README.md", "SKILL.md", "GLOBAL_CLAUDE_RULE.md", "LICENSE", "NOTICE.md",
@@ -19,6 +19,9 @@ required = [
     "adapters/agents-md/AGENTS.md",
     "adapters/github-copilot/copilot-instructions.md",
     "docs/INSTALLATION.md", "docs/METHOD.md", "docs/PLATFORM_MATRIX.md",
+    "docs/LLM_AGNOSTIC.md", "REPOSITORY_METADATA.md",
+    "tests/behavioral/README.md", "tests/behavioral/cases.json",
+    "scripts/validate-behavioral-fixtures.py",
     "branding/logo.svg", "branding/icon.svg", "branding/social-card.svg",
 ]
 
@@ -37,18 +40,26 @@ if root_skill.is_file() and claude_skill.is_file():
 core = (ROOT / "core/CRIT_CORE.md").read_text(encoding="utf-8") if (ROOT / "core/CRIT_CORE.md").exists() else ""
 core_required = [
     "Context - construct the problem environment",
-    "Role - define perspective and relationship",
-    "Interview - resolve the highest-value uncertainty",
-    "one question at a time",
-    "no more than three questions",
-    "Anti-goals",
-    "Preserve and deepen",
-    "Five-area semantic audit",
-    "Total >= 95 / 100",
+    "Role - define perspective without predetermining the answer",
+    "Interview - resolve only decision-changing uncertainty",
+    "Decision Contract",
+    "Robustness Gate",
+    "highest-leverage uncertain assumption",
+    "strongest credible disconfirming condition",
+    "PROCEED",
+    "CONDITIONAL",
+    "BLOCKED",
+    "runtime numeric self-grading",
+    "Evidence exception",
+    "hard release gates",
 ]
 for phrase in core_required:
     if phrase.lower() not in core.lower():
         errors.append(f"core invariant missing: {phrase}")
+
+for forbidden in ["Total >= 95 / 100", "quality_gate_total:", "quality_gate_min_area:"]:
+    if forbidden.lower() in core.lower():
+        errors.append(f"retired runtime scoring invariant still present in core: {forbidden}")
 
 adapter_paths = [
     "adapters/chatgpt-project/PROJECT_INSTRUCTIONS.md",
@@ -66,11 +77,10 @@ for rel in adapter_paths:
         text = p.read_text(encoding="utf-8")
         if f"CRIT_CORE_VERSION: {VERSION}" not in text:
             errors.append(f"adapter missing core version marker: {rel}")
-        for semantic in ["Context", "Role", "Interview", "Task", "95"]:
+        for semantic in ["Context", "Interview", "Robustness", "PROCEED", "CONDITIONAL", "BLOCKED"]:
             if semantic.lower() not in text.lower():
                 errors.append(f"adapter missing semantic token {semantic!r}: {rel}")
 
-# Check local markdown links that point to repository files.
 md_link = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 for p in ROOT.rglob("*.md"):
     text = p.read_text(encoding="utf-8")
@@ -89,7 +99,6 @@ for p in ROOT.rglob("*.md"):
         if not resolved.exists():
             errors.append(f"broken relative link: {p.relative_to(ROOT)} -> {target}")
 
-# Public package hygiene: internal study artifacts must never ship.
 for p in ROOT.rglob("*"):
     if not p.is_file():
         continue
@@ -97,14 +106,13 @@ for p in ROOT.rglob("*"):
     if "strategic_analysis" in name or "strategic-analysis" in name or name.endswith(".mp3"):
         errors.append(f"internal/source artifact must not ship: {p.relative_to(ROOT)}")
 
-# Basic frontmatter check.
 skill = root_skill.read_text(encoding="utf-8") if root_skill.exists() else ""
 if not skill.startswith("---\n"):
     errors.append("SKILL.md missing YAML frontmatter")
 if "name: crit-problem-solving" not in skill:
     errors.append("SKILL.md has wrong or missing name")
-if "description:" not in skill:
-    errors.append("SKILL.md missing description")
+if "CRIT_CORE_VERSION 1.1.0" not in skill:
+    errors.append("SKILL.md missing v1.1.0 core marker")
 
 if errors:
     print("CRIT Universal package validation: FAIL")
@@ -116,6 +124,7 @@ print("CRIT Universal package validation: PASS")
 print(f"- required files: {len(required)}")
 print(f"- adapters version-aligned: {len(adapter_paths)}")
 print("- root/Claude skill parity: PASS")
-print("- core semantic invariants: PASS")
+print("- robustness/evidence invariants: PASS")
+print("- retired runtime numeric gate absent: PASS")
 print("- relative Markdown links: PASS")
 print("- public-package hygiene: PASS")

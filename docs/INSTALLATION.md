@@ -1,109 +1,96 @@
 # Installation Guide
 
-**Platform guidance last verified:** 2026-08-08.
+**Protocol version:** 1.1.0  
+**Platform-neutral core:** `core/CRIT_CORE.md`
+
+## Any LLM - recommended universal path
+
+If the platform supports persistent system instructions, custom instructions, project/workspace rules, agent instructions, or reusable presets:
+
+1. Open `adapters/generic/SYSTEM_INSTRUCTIONS.md`.
+2. Copy the full contents.
+3. Paste them into the platform's persistent instruction field.
+4. Save.
+5. Test with a consequential problem containing at least one uncertain premise that could change the decision.
+
+If the coding agent supports `AGENTS.md`, use `adapters/agents-md/AGENTS.md` at the appropriate scope.
+
+See `docs/LLM_AGNOSTIC.md` for the model-neutral behavior contract.
 
 ## Claude Code
 
-Claude Code supports reusable skills through `SKILL.md`. Project skills live under `.claude/skills/<skill-name>/SKILL.md`; personal skills live under `~/.claude/skills/<skill-name>/SKILL.md`. Claude may load a relevant skill automatically, and `/crit-problem-solving` invokes it directly.
+Global use:
 
-For CRIT to be considered on every prompt across all repositories:
+1. Copy `.claude/skills/crit-problem-solving/SKILL.md` to `~/.claude/skills/crit-problem-solving/SKILL.md`.
+2. Append `GLOBAL_CLAUDE_RULE.md` to `~/.claude/CLAUDE.md`.
+3. Restart Claude Code if required for a newly created skills directory.
+4. Verify the rule/skill is loaded.
+5. Test with an ambiguous consequential decision.
 
-1. Create `~/.claude/skills/crit-problem-solving/`.
-2. Copy this repository's `.claude/skills/crit-problem-solving/SKILL.md` into that directory.
-3. Open `~/.claude/CLAUDE.md` (create it if needed).
-4. Append the contents of `GLOBAL_CLAUDE_RULE.md`.
-5. Start/restart Claude Code if the top-level skills directory did not exist when the session began.
-6. Verify loaded instructions with `/memory`.
-7. Test with: `I have a difficult decision with multiple stakeholders and competing constraints.` Claude should begin CRIT discovery rather than jump straight to a solution.
-
-For one repository only, keep the skill at `.claude/skills/crit-problem-solving/SKILL.md` and add the router rule to that repository's `CLAUDE.md` or `.claude/CLAUDE.md`.
-
-Official docs:
-- https://code.claude.com/docs/en/skills
-- https://code.claude.com/docs/en/memory
+Repository-only use: keep the skill under `.claude/skills/crit-problem-solving/` and add the router rule to repository instructions.
 
 ## ChatGPT Project
 
-ChatGPT Projects support project-specific instructions and project files. Project instructions apply inside that project and override global custom instructions.
-
-1. Open or create a ChatGPT Project.
-2. Open the project menu -> **Project settings**.
-3. Paste `adapters/chatgpt-project/PROJECT_INSTRUCTIONS.md` into **Project instructions**.
-4. Save.
-5. Optionally add `core/CRIT_CORE.md` and relevant examples as project files for human reference.
-6. Test with a meaningful ambiguous problem. The project should ask only material CRIT interview questions before solving.
-
-Official docs:
-- https://help.openai.com/en/articles/10169521-using-projects-in-chatgpt
+1. Open a Project.
+2. Open Project settings.
+3. Paste `adapters/chatgpt-project/PROJECT_INSTRUCTIONS.md` into Project instructions.
+4. Optionally add `core/CRIT_CORE.md` and `docs/LLM_AGNOSTIC.md` as reference files.
+5. Test with a meaningful problem containing a decision-changing assumption.
 
 ## Claude Project
 
-Claude Projects support project instructions plus a project knowledge base.
-
-1. Open or create a Claude Project.
-2. Select **Set project instructions**.
+1. Open a Claude Project.
+2. Set project instructions.
 3. Paste `adapters/claude-project/PROJECT_INSTRUCTIONS.md`.
-4. Save.
-5. Optionally add `core/CRIT_CORE.md` to project knowledge as a reference artifact.
-6. Test with a consequential decision that has missing context.
-
-Official docs:
-- https://support.claude.com/en/articles/9519177-how-can-i-create-and-manage-projects
+4. Optionally add `core/CRIT_CORE.md` as project knowledge.
+5. Test with a consequential problem.
 
 ## Gemini - custom Gem
 
-Gemini Apps support custom Gems with persistent instructions and optional Knowledge files.
-
-1. Open Gemini on the web.
-2. Open **Gems** -> **New Gem**.
-3. Name it `CRIT Universal`.
-4. Paste `adapters/gemini-gem/GEM_INSTRUCTIONS.md` into **Instructions**.
-5. Optionally add `core/CRIT_CORE.md` under **Knowledge**.
-6. Preview, then click **Save**.
-
-Official docs:
-- https://support.google.com/gemini/answer/15146780
-- https://support.google.com/gemini/answer/15235603
+1. Create a custom Gem.
+2. Paste `adapters/gemini-gem/GEM_INSTRUCTIONS.md` into Instructions.
+3. Optionally add `core/CRIT_CORE.md` as Knowledge.
+4. Save and test.
 
 ## Gemini CLI
 
-Gemini CLI loads `GEMINI.md` context files automatically. A project-root `GEMINI.md` is project-specific; `~/.gemini/GEMINI.md` is global.
-
-Project install:
+Project scope:
 
 ```text
 <project-root>/GEMINI.md
 ```
 
-Copy the content from `adapters/gemini-cli/GEMINI.md`.
+Use the contents of `adapters/gemini-cli/GEMINI.md`.
 
-Global install:
+Global scope:
 
 ```text
 ~/.gemini/GEMINI.md
 ```
 
-Verify with `/memory show` inside Gemini CLI.
-
-Official docs:
-- https://geminicli.com/docs/cli/gemini-md/
-
 ## GitHub Copilot
 
-GitHub Copilot supports repository-wide instructions from `.github/copilot-instructions.md`.
+Copy:
 
-1. Create `.github/` in the target repository if it does not exist.
-2. Copy `adapters/github-copilot/copilot-instructions.md` to `.github/copilot-instructions.md`.
-3. Save/commit the file.
-4. In supported Copilot surfaces, verify the instructions file appears in the response references.
+```text
+adapters/github-copilot/copilot-instructions.md
+```
 
-Official docs:
-- https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/add-custom-instructions/add-repository-instructions
+to:
 
-## Generic LLM
+```text
+.github/copilot-instructions.md
+```
 
-If the platform offers a persistent system prompt, custom instructions, agent instructions, workspace rules, or reusable prompt preset, paste `adapters/generic/SYSTEM_INSTRUCTIONS.md` there.
+Existing repository governance, security, testing, and release rules remain authoritative.
 
-If the coding agent supports `AGENTS.md`, use `adapters/agents-md/AGENTS.md` at the appropriate project scope.
+## Verification expectation
 
-The semantic protocol is platform-neutral. What differs by product is only **how reliably and automatically the instructions are loaded**.
+Installation is successful when the model:
+
+- bypasses CRIT for simple work;
+- asks only decision-changing questions;
+- identifies the highest-leverage uncertain assumption for substantial work;
+- scales evidence requirements to downside and reversibility;
+- can return a conditional or blocked conclusion instead of manufacturing certainty;
+- preserves approved requirements while allowing contradictory evidence to reopen assumptions.
