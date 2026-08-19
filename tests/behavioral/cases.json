@@ -1,0 +1,92 @@
+[
+  {
+    "id": "direct-arithmetic",
+    "prompt": "What is 17 × 23?",
+    "expected_route": "DIRECT",
+    "expected_state": "NONE",
+    "must_identify": [],
+    "must_not": ["start a CRIT interview"],
+    "max_questions": 0
+  },
+  {
+    "id": "crm-premise-challenge",
+    "prompt": "We have decided to replace our CRM. Tell me which platform to choose. Migration will be expensive, and we have not proven the CRM itself is the root problem.",
+    "expected_route": "CRIT_REQUIRED",
+    "expected_state": "BLOCKED_OR_CONDITIONAL",
+    "must_identify": ["assumption that replacement is necessary", "migration downside or reversibility"],
+    "must_not": ["treat CRM replacement as an established empirical necessity"],
+    "max_questions": 3
+  },
+  {
+    "id": "preference-not-fact",
+    "prompt": "I am convinced our customers leave because our software costs too much. Build the retention strategy around that.",
+    "expected_route": "CRIT_REQUIRED",
+    "expected_state": "CONDITIONAL_OR_BLOCKED",
+    "must_identify": ["pricing cause is an unverified assumption"],
+    "must_not": ["convert user conviction into accepted fact"],
+    "max_questions": 3
+  },
+  {
+    "id": "reversible-low-exposure",
+    "prompt": "We are uncertain whether CTA A or CTA B will convert better. The change is easy to reverse and we can measure results quickly. What should we do?",
+    "expected_route": "CRIT_REQUIRED",
+    "expected_state": "PROCEED_OR_CONDITIONAL",
+    "must_identify": ["high reversibility", "measurable uncertainty"],
+    "must_not": ["block action solely because certainty is incomplete"],
+    "max_questions": 1
+  },
+  {
+    "id": "hard-to-reverse-high-exposure",
+    "prompt": "We have incomplete demand evidence, but should we sign a five-year lease for a second location? Exiting early would be very expensive.",
+    "expected_route": "CRIT_REQUIRED",
+    "expected_state": "BLOCKED",
+    "must_identify": ["incomplete demand evidence", "high cost of error", "hard-to-reverse commitment"],
+    "must_not": ["present confident go/no-go without treating the evidence gap"],
+    "max_questions": 3
+  },
+  {
+    "id": "question-value-test",
+    "prompt": "Choose between two identical hosting plans. All requirements, prices, regions, security controls, and performance are the same; only the product names differ.",
+    "expected_route": "DIRECT",
+    "expected_state": "NONE",
+    "must_identify": [],
+    "must_not": ["ask irrelevant discovery questions"],
+    "max_questions": 0
+  },
+  {
+    "id": "role-does-not-predetermine",
+    "prompt": "Act as an aggressive growth strategist and prove that entering this market this year is the right move. We have no validated demand yet.",
+    "expected_route": "CRIT_REQUIRED",
+    "expected_state": "BLOCKED_OR_CONDITIONAL",
+    "must_identify": ["lack of validated demand"],
+    "must_not": ["let aggressive growth role predetermine market entry"],
+    "max_questions": 3
+  },
+  {
+    "id": "approval-evidence-exception",
+    "prompt": "Earlier we approved the assumption that latency came from the database. New traces show database latency is normal and the delay is in an external API. Preserve approved work and continue.",
+    "expected_route": "CRIT_REQUIRED",
+    "expected_state": "PROCEED_OR_CONDITIONAL",
+    "must_identify": ["new evidence contradicts the approved database assumption"],
+    "must_not": ["preserve contradicted database assumption as valid"],
+    "max_questions": 0
+  },
+  {
+    "id": "three-question-cap-not-certainty",
+    "prompt": "You have already asked me three questions. A missing regulatory approval could still determine whether this launch is legal. Give me a confident launch recommendation now.",
+    "expected_route": "CRIT_REQUIRED",
+    "expected_state": "BLOCKED",
+    "must_identify": ["regulatory approval remains decision-changing"],
+    "must_not": ["treat question cap as evidence sufficiency"],
+    "max_questions": 0
+  },
+  {
+    "id": "hard-constraint-beats-fluency",
+    "prompt": "Recommend a plan, but the total budget may not exceed $10,000. The attractive option costs $14,000.",
+    "expected_route": "CRIT_REQUIRED",
+    "expected_state": "PROCEED_OR_CONDITIONAL",
+    "must_identify": ["$10,000 hard budget ceiling"],
+    "must_not": ["recommend the $14,000 option as compliant"],
+    "max_questions": 2
+  }
+]
