@@ -3,119 +3,54 @@
 </p>
 
 <p align="center">
-  <strong>Context before command.</strong><br>
-  A portable problem-solving skill that makes AI understand the problem before it tries to solve it.
+  <strong>Context before command. Robustness before confidence.</strong><br>
+  An LLM-agnostic problem-solving protocol that makes AI understand the problem, test the assumption most capable of changing the answer, and match certainty to the consequences of being wrong.
 </p>
 
 <p align="center">
-  <code>v1.0.0</code> · <strong>99/100 semantic quality score</strong> · Claude Code · Claude Projects · ChatGPT Projects · Gemini · Copilot · Generic LLMs
+  <code>v1.1.0</code> · <strong>99/100 package conformance</strong> · Claude · ChatGPT · Gemini · Copilot · local models · generic LLMs
 </p>
 
-> **Independent, unofficial implementation.** CRIT™ is used descriptively for the Context-Role-Interview-Task framework demonstrated publicly by Geoff Woods. This repository is not affiliated with or endorsed by Geoff Woods, AI Leadership, or *The AI-Driven Leader*. The implementation, adapters, validation system, and documentation in this repository are independently authored.
+> **Independent, unofficial implementation.** CRIT™ is used descriptively for the Context-Role-Interview-Task framework demonstrated publicly by Geoff Woods. This repository is not affiliated with or endorsed by Geoff Woods, AI Leadership, or *The AI-Driven Leader*. The implementation, adapters, robustness controls, validation system, and documentation are independently authored.
 
 ---
 
 # CRIT Universal
 
-**CRIT Universal** turns the CRIT™ method into a reusable, cross-LLM operating skill.
+**CRIT Universal is an LLM-agnostic reasoning protocol.** It can be used with Claude, ChatGPT, Gemini, Copilot, local/open models, coding agents, or any other model that accepts persistent or per-session instructions.
 
-The central rule is simple:
+The source CRIT method establishes **Context -> Role -> Interview -> Task**. CRIT Universal preserves that discovery order, then adds the controls needed for repeated real-world decisions: a Decision Contract, a Robustness Gate, revision preservation, top-down decomposition, hard verification gates, and behavioral conformance fixtures.
 
-> **Do not get better at telling AI what to do. Get better at making AI understand the problem before it does anything.**
+## What changed in v1.1
 
-The source method defines **Context -> Role -> Interview -> Task**. This repository preserves that order, then adds the operational controls required for repeated real-world use: critique, revision preservation, top-down decomposition, hard-constraint verification, and a semantic quality gate.
+The core question is no longer merely:
 
-## Why this exists
+> Have we challenged the assumptions?
 
-Most AI failures on meaningful work start before the answer: the model is asked to solve a problem it does not yet understand.
+It is:
 
-CRIT Universal fixes that root cause by forcing a shared problem model first. For qualifying problems it:
+> **Would this recommendation still hold if the uncertain premise most capable of changing it were wrong?**
 
-1. builds Context, including constraints and anti-goals;
-2. defines the model's Role and authority boundary;
-3. Interviews the user with at most three high-value questions, one at a time;
-4. compiles the exact Task only after enough context exists;
-5. produces and critiques the solution;
-6. preserves approved work during revisions;
-7. decomposes from approved parent structures downward; and
-8. verifies hard constraints and semantic quality before final delivery.
-
-## What triggers it
-
-Use CRIT for meaningful ambiguity: strategy, decisions, diagnosis, root-cause work, planning, prioritization, delegation, architecture, system design, tradeoffs, organizational problems, and high-impact goals.
-
-It deliberately bypasses simple factual questions, arithmetic, direct rewrites/translations, syntax lookups, and fully specified low-ambiguity actions.
-
-## Repository structure
-
-| Path | Purpose |
-|---|---|
-| [`SKILL.md`](SKILL.md) | Canonical Agent Skills-compatible skill |
-| [`GLOBAL_CLAUDE_RULE.md`](GLOBAL_CLAUDE_RULE.md) | Global Claude Code auto-routing rule |
-| [`core/CRIT_CORE.md`](core/CRIT_CORE.md) | Platform-neutral semantic specification |
-| [`core/ROUTER.md`](core/ROUTER.md) | Applicability/trigger logic |
-| [`.claude/skills/crit-problem-solving/`](.claude/skills/crit-problem-solving/) | Ready-to-copy Claude Code skill |
-| [`adapters/`](adapters/) | ChatGPT, Claude, Gemini, Copilot, AGENTS.md, generic adapters |
-| [`docs/INSTALLATION.md`](docs/INSTALLATION.md) | Step-by-step platform installation |
-| [`docs/METHOD.md`](docs/METHOD.md) | Method reconstruction and operating model |
-| [`docs/PLATFORM_MATRIX.md`](docs/PLATFORM_MATRIX.md) | Where each adapter lives and how it auto-loads |
-| [`examples/`](examples/) | Worked usage examples |
-| [`scripts/validate-package.py`](scripts/validate-package.py) | Zero-dependency package validator |
-| [`SCORECARD.md`](SCORECARD.md) | Five-area release quality audit |
-| [`branding/`](branding/) | Logo, icon, and social-card assets |
-| [`PUBLISH_TO_GITHUB.ps1`](PUBLISH_TO_GITHUB.ps1) | One-command Windows publisher |
-
-## Quick start
-
-### Claude Code - global, recommended
-
-Copy:
+For substantial work CRIT now evaluates:
 
 ```text
-.claude/skills/crit-problem-solving/SKILL.md
+objective
++ decision owner
++ success condition
++ cost of error
++ reversibility
++ evidence sufficiency
++ highest-leverage uncertain assumption
++ strongest credible disconfirming condition
 ```
 
-to:
+Then it uses one of three internal states:
 
-```text
-~/.claude/skills/crit-problem-solving/SKILL.md
-```
+- **PROCEED** - robust enough for the decision exposure;
+- **CONDITIONAL** - useful, but materially assumption-sensitive;
+- **BLOCKED** - stronger evidence is required before responsible confidence.
 
-Then append [`GLOBAL_CLAUDE_RULE.md`](GLOBAL_CLAUDE_RULE.md) to:
-
-```text
-~/.claude/CLAUDE.md
-```
-
-Claude Code can auto-load skills when the description matches and can invoke the skill directly with `/crit-problem-solving`.
-
-### ChatGPT Project
-
-Open the project -> **Project settings** -> paste [`adapters/chatgpt-project/PROJECT_INSTRUCTIONS.md`](adapters/chatgpt-project/PROJECT_INSTRUCTIONS.md) into **Project instructions**.
-
-### Claude Project
-
-Open the project -> **Set project instructions** -> paste [`adapters/claude-project/PROJECT_INSTRUCTIONS.md`](adapters/claude-project/PROJECT_INSTRUCTIONS.md).
-
-### Gemini App
-
-Create a custom **Gem** -> paste [`adapters/gemini-gem/GEM_INSTRUCTIONS.md`](adapters/gemini-gem/GEM_INSTRUCTIONS.md) into **Instructions** -> Save.
-
-### Gemini CLI
-
-Copy [`adapters/gemini-cli/GEMINI.md`](adapters/gemini-cli/GEMINI.md) to the project root as `GEMINI.md`. For all projects, place it at `~/.gemini/GEMINI.md`.
-
-### GitHub Copilot
-
-Copy [`adapters/github-copilot/copilot-instructions.md`](adapters/github-copilot/copilot-instructions.md) to `.github/copilot-instructions.md` in the target repository.
-
-### Any other LLM
-
-Use [`adapters/generic/SYSTEM_INSTRUCTIONS.md`](adapters/generic/SYSTEM_INSTRUCTIONS.md) as persistent system/custom instructions, or use [`adapters/agents-md/AGENTS.md`](adapters/agents-md/AGENTS.md) with agents that support `AGENTS.md`.
-
-See the full [`Installation Guide`](docs/INSTALLATION.md).
-
-## The operating cycle
+## Operating cycle
 
 ```text
 ROUTE
@@ -124,7 +59,11 @@ CONTEXT
   ↓
 ROLE
   ↓
-INTERVIEW (0-3 questions, one at a time)
+INTERVIEW (0-3 decision-changing questions)
+  ↓
+DECISION CONTRACT
+  ↓
+ROBUSTNESS GATE
   ↓
 TASK
   ↓
@@ -134,39 +73,122 @@ CRITIQUE
   ↓
 PRESERVE / DEEPEN
   ↓
-VERIFY
+VERIFY (hard PASS/FAIL gates)
   ↓
 DELIVER
 ```
 
-## Quality gate
+## Why this is more predictable
 
-Substantial outputs are internally reviewed in five semantic areas:
+CRIT v1.1 constrains the judgment points that most often cause LLM drift:
 
-| Area | Max |
-|---|---:|
-| Problem-model fidelity | 20 |
-| Requirement & constraint coverage | 20 |
-| Reasoning & solution coherence | 20 |
-| Actionability & specificity | 20 |
-| Claim discipline & verification | 20 |
+- interview questions must pass a counterfactual value test;
+- the three-question cap cannot be mistaken for evidence sufficiency;
+- role cannot predetermine conclusion;
+- preferences cannot silently become facts;
+- evidence is evaluated relative to the claim;
+- only the highest-leverage uncertain assumption is robustness-tested;
+- verification depth scales with downside and reversibility;
+- approval locks do not freeze contradicted assumptions;
+- runtime numeric self-grading is removed.
 
-**Release threshold:** >=95/100 total and no area below 18/20.
+## LLM-agnostic quick start
 
-This is a self-review mechanism, not a substitute for factual evidence, tests, source verification, or human authorization.
+### Any LLM
 
-## Design choices
+Use:
 
-The repository deliberately preserves several mechanics demonstrated in the source method:
+```text
+adapters/generic/SYSTEM_INSTRUCTIONS.md
+```
 
-- anti-goals belong in Context;
-- the Interview is capped and sequential;
-- the substantive Task comes after discovery;
-- approved content is protected against revision regression;
-- deeper work is generated top-down from an approved parent structure;
-- explicit constraints get a separate compliance pass.
+as the platform's system prompt, custom instructions, workspace/project instructions, agent rule, persistent context, or reusable prompt preset.
 
-See [`docs/METHOD.md`](docs/METHOD.md) and [`SOURCES.md`](SOURCES.md).
+If your agent supports `AGENTS.md`, use:
+
+```text
+adapters/agents-md/AGENTS.md
+```
+
+Full model-neutral instructions: [`docs/LLM_AGNOSTIC.md`](docs/LLM_AGNOSTIC.md)
+
+### Claude Code
+
+Copy `.claude/skills/crit-problem-solving/SKILL.md` to your personal or project skills directory, then use `GLOBAL_CLAUDE_RULE.md` for automatic routing.
+
+### ChatGPT Project
+
+Paste `adapters/chatgpt-project/PROJECT_INSTRUCTIONS.md` into Project instructions.
+
+### Claude Project
+
+Paste `adapters/claude-project/PROJECT_INSTRUCTIONS.md` into project instructions.
+
+### Gemini
+
+Use the Gem or Gemini CLI adapter in `adapters/`.
+
+### GitHub Copilot
+
+Copy `adapters/github-copilot/copilot-instructions.md` to `.github/copilot-instructions.md`.
+
+See [`docs/INSTALLATION.md`](docs/INSTALLATION.md).
+
+## Repository structure
+
+| Path | Purpose |
+|---|---|
+| [`SKILL.md`](SKILL.md) | Canonical Agent Skills-compatible skill |
+| [`core/CRIT_CORE.md`](core/CRIT_CORE.md) | Platform-neutral semantic specification |
+| [`core/ROUTER.md`](core/ROUTER.md) | CRIT vs DIRECT routing |
+| [`GLOBAL_CLAUDE_RULE.md`](GLOBAL_CLAUDE_RULE.md) | Global Claude Code auto-routing rule |
+| [`adapters/`](adapters/) | Model/platform loading adapters |
+| [`docs/LLM_AGNOSTIC.md`](docs/LLM_AGNOSTIC.md) | Use CRIT with any LLM |
+| [`docs/INSTALLATION.md`](docs/INSTALLATION.md) | Platform installation |
+| [`docs/METHOD.md`](docs/METHOD.md) | Method and v1.1 rationale |
+| [`tests/behavioral/`](tests/behavioral/) | Provider-neutral behavioral conformance fixtures |
+| [`scripts/validate-package.py`](scripts/validate-package.py) | Package/invariant validator |
+| [`scripts/validate-behavioral-fixtures.py`](scripts/validate-behavioral-fixtures.py) | Behavioral fixture schema validator |
+| [`SCORECARD.md`](SCORECARD.md) | Package conformance scorecard |
+| [`REPOSITORY_METADATA.md`](REPOSITORY_METADATA.md) | Canonical GitHub About description and suggested topics |
+| [`branding/`](branding/) | Logo, icon, social-card assets |
+
+## Evidence discipline
+
+CRIT does not use a rigid source hierarchy. Evidence is evaluated relative to a claim using:
+
+- relevance;
+- reliability;
+- directness;
+- recency;
+- independence.
+
+Direct test or execution evidence remains decisive where the task can actually be tested.
+
+## Verification
+
+Runtime self-scoring has been removed.
+
+Substantial outputs must pass hard gates for:
+
+```text
+Problem fidelity
+Hard constraints
+Anti-goals
+Material assumptions treated
+Evidence discipline
+Authority boundary
+Actionability / usable outcome
+Robustness state represented honestly
+```
+
+If evidence cannot support a normal release, the answer must remain conditional or blocked rather than manufacture certainty.
+
+## Behavioral conformance
+
+The repository's **99/100** is a package conformance score. It does not claim 99% reasoning reliability.
+
+`tests/behavioral/cases.json` defines adversarial cases for routing, question efficiency, premise challenge, reversibility, evidence sufficiency, preservation, and hard constraints. The same cases can be run against different model families without requiring identical wording.
 
 ## Validation
 
@@ -174,16 +196,17 @@ Run:
 
 ```bash
 python scripts/validate-package.py
+python scripts/validate-behavioral-fixtures.py
 ```
 
-The validator checks required files, adapter version alignment, skill parity, core invariants, relative Markdown links, and accidental inclusion of internal source materials.
+CI runs both validators.
 
 ## Status
 
-**Version:** 1.0.0  
-**Release state:** Stable  
+**Version:** 1.1.0  
+**Release state:** Stable candidate pending branch validation/merge  
 **Canonical maintainer:** Chris Kulbaba (@chriskulbaba2025)  
-**Intended canonical repository:** `chriskulbaba2025/crit-universal-skill`
+**Canonical repository:** `chriskulbaba2025/crit-universal-skill`
 
 ## License and attribution
 
