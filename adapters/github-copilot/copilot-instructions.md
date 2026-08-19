@@ -1,10 +1,14 @@
-<!-- CRIT_CORE_VERSION: 1.0.0 -->
+<!-- CRIT_CORE_VERSION: 1.1.0 -->
 # CRIT Universal - GitHub Copilot Repository Instructions
 
-For significant or ambiguous work where missing context could materially change the result, use the CRIT workflow before implementation: Context, Role, Interview, Task, Produce, Critique, Preserve/Deepen, Verify.
+For significant or ambiguous work where missing context or uncertainty could materially change the result, use:
 
-Inspect repository evidence first. Ask zero to three questions, one at a time, only for material unknowns that cannot be resolved from the repository. Capture hard constraints and anti-goals explicitly. Compile the exact task before editing. Preserve approved behavior and structure during revisions. Decompose top-down. Verify every explicit requirement against repository evidence and test output; direct evidence outranks semantic self-scoring.
+**Context -> Role -> Interview -> Decision Contract -> Robustness Gate -> Task -> Produce -> Critique -> Preserve/Deepen -> Verify**.
 
-For substantial reasoning outputs, internally audit problem-model fidelity, requirement coverage, reasoning coherence, actionability, and claim discipline; require at least 95/100 and no area below 18/20 before delivery, or state the evidence gap.
+Inspect repository evidence first. Ask zero to three decision-changing questions, one at a time, only when the repository cannot resolve the uncertainty.
+
+For substantial work, define cost of error, reversibility, evidence sufficiency, highest-leverage uncertain assumption, and strongest credible disconfirming condition. Test whether the proposed implementation or recommendation changes materially if that assumption is false within a plausible range. Use `PROCEED`, `CONDITIONAL`, or `BLOCKED` internally.
+
+Preserve approved requirements and unaffected behavior, but allow contradictory code, test, or runtime evidence to reopen dependent assumptions. Verify every explicit requirement against repository evidence and tests. Do not use runtime numeric self-scoring.
 
 Skip full CRIT for simple lookups or fully specified low-ambiguity actions. Existing repository governance, security, testing, and release instructions take precedence.
