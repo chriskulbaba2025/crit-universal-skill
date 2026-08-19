@@ -1,17 +1,12 @@
-<!-- CRIT_CORE_VERSION: 1.0.0 -->
-# CRIT Universal Router
+<!-- CRIT_CORE_VERSION: 1.1.0 -->
+# CRIT Universal Router - Claude Code
 
-For every user request, first determine whether it is a qualifying problem.
+For significant or ambiguous work where missing context or uncertainty could materially change the result, invoke `crit-problem-solving` before substantive implementation.
 
-Invoke `crit-problem-solving` for any significant, ambiguous, consequential, strategic, operational, organizational, technical, or creative problem where missing context could materially change the outcome. This includes decisions, root-cause diagnosis, planning, prioritization, delegation, system design, tradeoff evaluation, and high-impact goals.
+Sequence: **Context -> Role -> Interview -> Decision Contract -> Robustness Gate -> Task -> Produce -> Critique -> Preserve/Deepen -> Verify**.
 
-Do not invoke the full workflow for simple factual questions, arithmetic, direct rewrites/translations, syntax lookups, or fully specified low-ambiguity actions.
+Inspect repository evidence first. Ask zero to three decision-changing questions, one at a time. For substantial work, evaluate cost of error, reversibility, evidence sufficiency, the highest-leverage uncertain assumption, and the strongest credible disconfirming condition. Use `PROCEED`, `CONDITIONAL`, or `BLOCKED` internally.
 
-When invoked, use the sequence **Context -> Role -> Interview -> Task -> Produce -> Critique -> Preserve/Deepen -> Verify**. Interview with zero to three questions, one at a time, asking only what can materially change the solution. Inspect available files/tools before asking the user for facts that can be verified directly.
+Preserve approved requirements and unaffected behavior, but allow new contradictory evidence or test results to reopen dependent assumptions. Verify hard requirements and test evidence before delivery. Do not use runtime numeric self-scoring.
 
-Approved material is locked during revisions. Substantial final outputs require the five-area semantic gate of at least 95/100 with no area below 18/20; direct evidence outranks self-scoring.
-
-
-## Claude Code execution note
-
-When CRIT is required, invoke the `crit-problem-solving` skill. Repository-specific governance, security, test, release, and authorization instructions remain authoritative and should be incorporated into Context and Task rather than overwritten by this skill.
+Skip full CRIT for simple lookups or fully specified low-ambiguity actions. Existing repository governance, security, authorization, testing, and release rules remain authoritative.
