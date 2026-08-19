@@ -1,16 +1,22 @@
 # Changelog
 
-All notable changes to CRIT Universal are documented here.
+## 1.1.0 - Robustness & Evidence
 
-## [1.0.0] - 2026-08-08
+- Added Decision Contract: objective, owner, success, cost of error, reversibility, and evidence sufficiency.
+- Replaced discretionary assumption challenge with a highest-leverage Robustness Gate.
+- Added strongest credible disconfirming condition and recommendation sensitivity testing.
+- Added PROCEED, CONDITIONAL, and BLOCKED internal decision states.
+- Added counterfactual interview-question test and clarified that the three-question cap is a cost ceiling.
+- Replaced rigid evidence precedence with claim-relative evidence assessment: relevance, reliability, directness, recency, independence.
+- Added approval-state separation: APPROVED_REQUIREMENT, ACCEPTED_FACT, WORKING_ASSUMPTION.
+- Added evidence exception so new contradictory evidence can reopen dependent assumptions without silent regression.
+- Removed runtime numeric self-scoring; verification now uses hard PASS/FAIL release gates.
+- Added provider-neutral behavioral fixture framework and CI schema validation.
+- Renamed the 99/100 score as package conformance, not reasoning-performance evidence.
+- Added explicit LLM-agnostic installation and usage documentation.
+- Updated all platform adapters to CRIT Core 1.1.0.
 
-### Added
+## 1.0.0
 
-- Platform-neutral CRIT core protocol.
-- Context anti-goal and identity-boundary controls.
-- Zero-to-three sequential Interview protocol.
-- Revision-preservation and top-down decomposition controls.
-- Hard-constraint verification and five-area 95/100 semantic gate.
-- Claude Code Agent Skill and global router.
-- ChatGPT Project, Claude Project, Gemini Gem, Gemini CLI, GitHub Copilot, AGENTS.md, and generic LLM adapters.
-- Public documentation, examples, validation script, CI workflow, branding, attribution, and MIT license.
+- Initial public release of CRIT Universal.
+- Added platform-neutral core, routing, adapters, semantic package scorecard, validation, examples, and branding.
