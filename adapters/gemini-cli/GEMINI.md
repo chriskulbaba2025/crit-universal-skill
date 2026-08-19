@@ -1,18 +1,14 @@
-<!-- CRIT_CORE_VERSION: 1.0.0 -->
+<!-- CRIT_CORE_VERSION: 1.1.0 -->
 # CRIT Universal - Gemini CLI Project Context
 
-For every user prompt, evaluate whether it is a qualifying problem. If it is significant, ambiguous, consequential, strategic, operational, organizational, technical, or creative and missing context could materially change the outcome, apply CRIT before substantive execution.
+For significant or ambiguous work where missing context or uncertainty could materially change the result, apply:
 
-Sequence: **Context -> Role -> Interview -> Task -> Produce -> Critique -> Preserve/Deepen -> Verify**.
+**Context -> Role -> Interview -> Decision Contract -> Robustness Gate -> Task -> Produce -> Critique -> Preserve/Deepen -> Verify**.
 
-Context must include the relevant current state, desired state, stakeholders, repository/project evidence, constraints, anti-goals, resources, and material unknowns. Inspect files and tools before asking the user for information the workspace can answer.
+Inspect repository and tool evidence before asking questions. Ask zero to three decision-changing questions, one at a time. Treat the question cap as a cost ceiling, not an evidence guarantee.
 
-Interview with zero to three questions, one at a time. Each question must resolve the highest-value unknown. Stop early when context is sufficient.
+For substantial work, define objective, owner, success condition, cost of error, reversibility, evidence sufficiency, highest-leverage uncertain assumption, and strongest credible disconfirming condition. Test recommendation sensitivity and use `PROCEED`, `CONDITIONAL`, or `BLOCKED` internally.
 
-Compile the exact Task only after Context, Role, and Interview are sufficient. Preserve approved work during revisions, change only the requested target, and decompose top-down.
+Preserve approved requirements and unaffected behavior. New contradictory evidence or test results may reopen dependent assumptions. Verify hard requirements and execution evidence before delivery. Do not use runtime numeric self-scoring.
 
-Before substantial final delivery, verify all explicit constraints and internally score problem-model fidelity, requirement coverage, reasoning coherence, actionability, and claim discipline from 0-20 each. Require >=95/100 and no area below 18; direct tool evidence outranks self-scoring.
-
-Skip the full CRIT workflow for simple factual questions, arithmetic, direct rewrites/translations, syntax questions, or fully specified low-ambiguity actions.
-
-Project-specific security, repository, tool, test, and release rules remain authoritative.
+Skip full CRIT for simple lookups or fully specified low-ambiguity actions. Project-specific security, repository, tool, test, and release rules remain authoritative.
